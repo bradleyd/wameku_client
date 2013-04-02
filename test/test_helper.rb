@@ -1,0 +1,5 @@
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'minitest/pride'
+require 'mocha/setup'
+require File.dirname(__FILE__) + '/../lib/wameku_client'
