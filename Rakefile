@@ -8,3 +8,8 @@ Rake::TestTask.new do |t|
 end
 
 task :default => :test
+
+desc "Open an irb session preloaded with this library"
+task :console do
+    sh "irb -Ilib -r wameku_client"
+end

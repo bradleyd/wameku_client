@@ -1,7 +1,48 @@
 require "wameku_client/version"
 require "wameku_client/connection"
-require "wameku_client/common"
 
+# this is the outermostr API to user
+#
+# @example 
+# obj = WamekuClient::Init.new
+# obj.connect_to(host: '127.0.0.1', port: 1337)
+# obj.plugins
+# obj.run_me
 module WamekuClient
-  # Your code goes here...
+  class Init
+    attr_reader :connection
+
+    def initialize(opts={})
+    end
+
+    def connect_to(opts={})
+      @connection = Connection.new(host: opts.fetch(:host), port: opts.fetch(:port) { 1337 }).connection
+    end
+
+    # fetches the loaded plugins from remote host
+    #
+    # @example  ["CpuPlugin", "HostPlugin"]
+    def plugins
+      @connection.plugins
+    end
+    
+    # run loaded plugins on remote host
+    # @param  [nil]
+    # @return see @example
+    #
+    # @example [{:cpu_load=>[0.37, 0.36, 0.43], 
+    #            :stats=>{"cpu0"=>[25353, 79, 2398, 419342, 719, 15, 3493, 0, 0, 0], 
+    #                     "cpu1"=>[22706, 37, 2415, 426848, 264, 0, 1010, 0, 0, 0], 
+    #                     "cpu2"=>[20274, 53, 2486, 420216, 9247, 0, 66, 0, 0, 0], 
+    #                     "cpu3"=>[22178, 49, 2456, 426794, 820, 0, 92, 0, 0, 0], 
+    #                     "cpu4"=>[2020, 9, 516, 451406, 45, 0, 2, 0, 0, 0], 
+    #                     "cpu5"=>[1588, 16, 393, 451628, 48, 0, 1, 0, 0, 0], 
+    #                     "cpu6"=>[1801, 6, 474, 451566, 109, 0, 1, 0, 0, 0], 
+    #                     "cpu7"=>[1807, 12, 485, 451628, 64, 0, 1, 0, 0, 0]}}, 
+    #                     {:host_name=>"phoenix", :host_ip_addr=>["127.0.1.1"]}]
+    #
+   def run_me
+      @connection.run_me
+    end
+  end
 end
